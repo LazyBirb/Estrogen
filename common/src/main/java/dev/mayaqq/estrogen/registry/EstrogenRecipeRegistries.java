@@ -1,13 +1,12 @@
 package dev.mayaqq.estrogen.registry;
 
-import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
-import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import dev.mayaqq.estrogen.Estrogen;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import uwu.serenity.critter.api.generic.Registrar;
 
 public class EstrogenRecipeRegistries {
-    public static final ResourcefulRegistry<RecipeSerializer<?>> RECIPE_SERIALIZERS = ResourcefulRegistries.create(BuiltInRegistries.RECIPE_SERIALIZER, Estrogen.MOD_ID);
-    public static final ResourcefulRegistry<RecipeType<?>> RECIPE_TYPES = ResourcefulRegistries.create(BuiltInRegistries.RECIPE_TYPE, Estrogen.MOD_ID);
+    public static final Registrar<RecipeSerializer<?>> RECIPE_SERIALIZERS = Estrogen.REGISTRIES.getRegistrar(Registries.RECIPE_SERIALIZER);
+    public static final Registrar<RecipeType<?>> RECIPE_TYPES = Estrogen.REGISTRIES.getRegistrar(Registries.RECIPE_TYPE);
 }

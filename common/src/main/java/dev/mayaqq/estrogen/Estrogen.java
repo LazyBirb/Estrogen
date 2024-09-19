@@ -2,16 +2,17 @@ package dev.mayaqq.estrogen;
 
 import dev.mayaqq.estrogen.networking.EstrogenNetworkManager;
 import dev.mayaqq.estrogen.registry.*;
-import dev.mayaqq.estrogen.registry.items.ThighHighsItem;
-import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uwu.serenity.critter.RegistryManager;
 
 public class Estrogen {
     public static final String MOD_ID = "estrogen";
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Estrogen");
+
+    public static final RegistryManager REGISTRIES = RegistryManager.create(MOD_ID);
 
     public static ResourceLocation id(String path) {
         return new ResourceLocation(MOD_ID, path);
@@ -19,35 +20,27 @@ public class Estrogen {
 
     public static void init() {
         // Init all the different classes
-        EstrogenAttributes.ATTRIBUTES.init();
+        EstrogenAttributes.init();
         EstrogenDataSerializers.DATA_SERIALIZERS.init();
-        EstrogenEntities.ENTITIES.init();
-        EstrogenFluids.FLUIDS.init();
-        EstrogenBlocks.BLOCKS.init();
-        EstrogenBlockEntities.BLOCK_ENTITIES.init();
-        EstrogenFluidProperties.FLUID_PROPERTIES.initialize();
-        EstrogenEffects.MOB_EFFECTS.init();
-        EstrogenPotions.POTIONS.init();
-        EstrogenEnchantments.ENCHANTMENTS.init();
-        EstrogenItems.ITEMS.init();
-        EstrogenRecipeRegistries.RECIPE_SERIALIZERS.init();
-        EstrogenRecipeRegistries.RECIPE_TYPES.init();
-        EstrogenSounds.SOUNDS.init();
+        EstrogenEntities.ENTITIES.register();
+        EstrogenFluids.FLUIDS.register();
+        EstrogenSounds.SOUNDS.register();
+        EstrogenBlocks.BLOCKS.register();
+        EstrogenBlockEntities.BLOCK_ENTITIES.register();
+        EstrogenEffects.MOB_EFFECTS.register();
+        EstrogenPotions.POTIONS.register();
+        EstrogenEnchantments.ENCHANTMENTS.register();
+        EstrogenItems.ITEMS.register();
+        // Recipes need to be registered before completing the recipe registers
         EstrogenRecipes.RECIPES.init();
-        EstrogenAdvancementCriteria.CRITERIAS.init();
-        EstrogenParticles.PARTICLES.init();
-        EstrogenCreativeTab.TABS.init();
-        EstrogenNetworkManager.NETWORK_MANAGER.init();
         EstrogenProcessingRecipes.register();
+        EstrogenRecipeRegistries.RECIPE_TYPES.register();
+        EstrogenRecipeRegistries.RECIPE_SERIALIZERS.register();
+        EstrogenAdvancementCriteria.CRITERIAS.init();
+        EstrogenParticles.PARTICLES.register();
+        EstrogenCreativeTab.TAB.register();
+        EstrogenNetworkManager.NETWORK_MANAGER.init();
 
         LOGGER.info("Injecting Estrogen into your veins!");
-    }
-
-    public static void postInit() {
-        EstrogenPotatoProjectiles.register();
-        EstrogenEntities.registerSpawnPlacements();
-        EstrogenBlocks.registerExtraProperties();
-        EstrogenItems.registerTooltips();
-        CauldronInteraction.WATER.put(EstrogenItems.THIGH_HIGHS.get(), ThighHighsItem.CAULDRON_INTERACTION);
     }
 }
